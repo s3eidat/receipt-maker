@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Receipt Maker — Free 80mm Thermal &amp; A5 Receipts, Arabic/English | S3eidat Tools</title>
+<meta name="description" content="Make quick sales receipts in your browser: 80mm thermal or A5, items, discount, tax, payment method, auto-numbered, Arabic/English labels. Print or save as PNG. Free and private.">
+<meta property="og:title" content="Receipt Maker — free, private receipts for small sellers">
+<meta property="og:description" content="80mm thermal or A5 receipts with Arabic/English labels. Print or save PNG. Runs 100% in your browser.">
+<meta property="og:image" content="screenshot.png">
+<link rel="icon" href="kit/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="kit/kit.css">
+<link rel="stylesheet" href="app.css">
+<script src="kit/kit.js"></script>
+</head>
+<body data-tool="receipt-maker">
+<main class="s3-main">
+  <section class="s3-hero">
+    <h1>Receipt Maker</h1>
+    <p>Quick, clean receipts for small sellers. 80mm thermal or A5, English, Arabic or both. Print it or save a PNG to send on WhatsApp.</p>
+    <div class="s3-badges"><span class="chip accent"><svg class="i"><use href="#i-lock"/></svg>Shop profile saved in this browser only</span><span class="chip">Auto-numbered</span><span class="chip">عربي / English</span></div>
+  </section>
+
+  <div class="rc-layout">
+    <div class="stack no-print rc-editor" id="editor">
+      <section class="card">
+        <div class="row between"><h2>Receipt</h2><button class="btn small primary" id="new"><svg class="i"><use href="#i-plus"/></svg>New receipt</button></div>
+        <div class="grid-2">
+          <label class="field">Receipt no.<input class="input" type="number" min="1" step="1" data-r="no"></label>
+          <label class="field">Date &amp; time<input class="input" type="datetime-local" data-r="when"></label>
+          <label class="field">Customer (optional)<input class="input" data-r="customer" dir="auto" maxlength="80"></label>
+          <label class="field">Payment<select class="select" data-r="pay">
+            <option value="cash">Cash</option><option value="card">Card</option><option value="transfer">Bank transfer</option><option value="wallet">E-wallet</option><option value="other">Other</option>
+          </select></label>
+        </div>
+
+        <div class="row between mt"><h2>Items</h2><button class="btn small" id="addItem"><svg class="i"><use href="#i-plus"/></svg>Add item</button></div>
+        <div class="items" id="items"></div>
+
+        <div class="grid-3 mt">
+          <label class="field">Discount<span class="disc-row"><input class="input" type="number" min="0" step="any" data-r="disc"><select class="select" data-r="discType" aria-label="Discount type"><option value="pct">%</option><option value="amt">amount</option></select></span></label>
+          <label class="field">Tax %<input class="input" type="number" min="0" max="100" step="any" data-r="tax"></label>
+          <label class="field">Amount paid<input class="input" type="number" min="0" step="any" data-r="paid" placeholder="for change"></label>
+        </div>
+        <label class="field mt">Note on this receipt<input class="input" data-r="note" dir="auto" maxlength="200"></label>
+      </section>
+
+      <section class="card">
+        <h2>Shop profile <small>saved for every receipt</small></h2>
+        <div class="grid-2">
+          <label class="field">Shop name<input class="input" data-s="name" dir="auto" maxlength="80"></label>
+          <label class="field">Phone<input class="input" data-s="phone" dir="auto" maxlength="40"></label>
+          <label class="field">Address<input class="input" data-s="address" dir="auto" maxlength="160"></label>
+          <label class="field">Tax number<input class="input" data-s="taxId" dir="auto" maxlength="40"></label>
+          <label class="field">Currency label<input class="input" data-s="currency" dir="auto" maxlength="8" placeholder="JD, $, ر.س"></label>
+          <label class="field">Decimals<select class="select" data-s="decimals"><option value="0">0</option><option value="2">2</option><option value="3">3</option></select></label>
+          <label class="field">Number prefix<input class="input" data-s="prefix" dir="auto" maxlength="10" placeholder="R-"></label>
+          <label class="field">Footer message<input class="input" data-s="footer" dir="auto" maxlength="120"></label>
+        </div>
+      </section>
+    </div>
+
+    <section class="rc-preview">
+      <div class="card no-print rc-tools">
+        <div class="row">
+          <div class="seg" id="fmt" role="group" aria-label="Paper">
+            <button aria-pressed="true" data-v="thermal">80mm</button>
+            <button aria-pressed="false" data-v="a5">A5</button>
+          </div>
+          <div class="seg" id="lang" role="group" aria-label="Labels">
+            <button aria-pressed="true" data-v="en">EN</button>
+            <button aria-pressed="false" data-v="ar">عربي</button>
+            <button aria-pressed="false" data-v="both">EN + ع</button>
+          </div>
+        </div>
+        <div class="row mt">
+          <button class="btn primary" id="print"><svg class="i"><use href="#i-file"/></svg>Print</button>
+          <button class="btn" id="png"><svg class="i"><use href="#i-image"/></svg>Save PNG</button>
+          <button class="btn ghost" id="copy"><svg class="i"><use href="#i-copy"/></svg>Copy text</button>
+        </div>
+      </div>
+      <div class="rc-stage"><div class="receipt" id="receipt"></div></div>
+    </section>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
